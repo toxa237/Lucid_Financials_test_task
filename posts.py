@@ -21,7 +21,6 @@ def get_user(token: str, db: Session):
 
 
 @router.post("/add_post/")
-@cache(expire=300)
 def add_post(post: PostCreate, db: Session = Depends(get_db)):
     user = get_user(post.token, db)
     if not user:
@@ -35,6 +34,7 @@ def add_post(post: PostCreate, db: Session = Depends(get_db)):
 
 
 @router.get("/get_post/")
+@cache(expire=300)
 def add_post(post: PostResponse, db: Session = Depends(get_db)):
     user = get_user(post.token, db)
     if not user:
