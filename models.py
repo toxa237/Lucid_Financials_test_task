@@ -6,6 +6,9 @@ class Base(DeclarativeBase):
     pass
 
 class User(Base):
+    """
+    Model for User table in database.
+    """
     __tablename__ = "users"
     id = Column(Integer, primary_key=True, index=True, autoincrement=True)
     email = Column(VARCHAR(50), unique=True, index=True)
@@ -15,6 +18,9 @@ class User(Base):
 
 
 class Posts(Base):
+    """
+    Model for Posts table in database.
+    """
     __tablename__ = "posts"
     id = Column(Integer, primary_key=True, index=True, autoincrement=True)
     text = Column(VARCHAR(1000))

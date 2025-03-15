@@ -14,6 +14,19 @@ router = APIRouter()
 
 @router.post("/registration/")
 def registration(user: UserCreate, db: Session = Depends(get_db)):
+    """
+    Register a new user.
+
+    Args:
+        user (UserCreate): The user information for registration.
+        db (Session): The database session.
+
+    Returns:
+        dict: A message indicating successful user creation.
+
+    Raises:
+        HTTPException: If the email is already registered.
+    """
     db_user = db.query(User).filter(User.email == user.email).first()
     if db_user:
         raise HTTPException(status_code=400, detail="Email already registered")
@@ -26,7 +39,21 @@ def registration(user: UserCreate, db: Session = Depends(get_db)):
 
 
 @router.post("/login/")
+
 def login(user: UserLogin, db: Session = Depends(get_db)):
+    """
+    Authenticate a user and return a token.
+
+    Args:
+        user (UserLogin): The user login information.
+        db (Session): The database session.
+
+    Returns:
+        dict: A token for the authenticated user.
+
+    Raises:
+        HTTPException: If the credentials are invalid.
+    """
     db_user = db.query(User).filter(User.email == user.email).first()
     if not db_user or not pwd_context.verify(user.password, db_user.hashed_password):
         raise HTTPException(status_code=401, detail="Invalid credentials")
